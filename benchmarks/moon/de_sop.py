@@ -94,6 +94,7 @@ def main():
 	gen = [i for i in range(GEN)]
 	posx = [[] for i in range(npop)]
 	posy = [[] for i in range(npop)]
+	posz = [[] for i in range(npop)]
 	agentFits = [[] for _ in range(npop)]
 	iterFits = []
 	iterBests = []
@@ -109,6 +110,7 @@ def main():
 	logbook.header = "gen", "evals", "std", "min", "avg", "max"
 
 	fig, (ax1, ax2) = plt.subplots(ncols=1, nrows=2)
+	ax2 = fig.add_subplot(projection='3d')
 
 	for j in range(1, N+1):
 		print(f"N:{j}")
@@ -158,6 +160,7 @@ def main():
 			for i in range(npop):
 				posx[i].append(pop[i][0])
 				posy[i].append(pop[i][1])
+				posz[i].append(pop[i].fitness.values[0])
 				#print(f"agent:{i}\tpos[{pop[i][0], pop[i][1]}]\t fobj:{pop[i].fitness.values[0]}")
 
 			#print(logbook.stream)
@@ -193,10 +196,12 @@ def main():
 	#ax1.legend()
 	for text in ax1.legend().get_texts():
 		text.set_color('black')
-	for g in range(npop):
-		ax2.scatter(posx[g], posy[g])
-	ax2.set_xlim(0, 1)
-	ax2.set_ylim(0, 1)
+	#for g in range(npop):
+		#ax2.plot_surface(posx[g], posy[g], posz[npop])
+
+	ax2.plot_surface(posx[npop], posy[npop], posz[npop])
+	#ax2.set_xlim(0, 1)
+	#ax2.set_ylim(0, 1)
 	#ax2.set_title(f"DE with {npop} individuals and {GEN} generations\npos:{hof[0]} min:{hof[0].fitness.values[0]}", fontsize=15)
 	ax2.set_ylabel("Latitude", fontsize=15)
 	ax2.set_xlabel("Longitude", fontsize=15)
